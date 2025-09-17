@@ -969,13 +969,23 @@ public async getAdvice(): Promise<void> {
 
   const systemPrompt = "You are an AI game strategist for a Snake & Ladder game. Your advice should be specific to the player's current situation, including their position, their opponents' positions, and any nearby board features like snakes or ladders. Always provide unique, single-sentence advice. Do not mention your role as an AI.";
 
-  const payload = {
-    contents: [{ parts: [{ text: userQuery }] }],
-    systemInstruction: { parts: [{ text: systemPrompt }] }
-  };
-
+  // const payload = {
+  //   contents: [{ parts: [{ text: userQuery }] }],
+  //   systemInstruction: { parts: [{ text: systemPrompt }] }
+  // };
+const payload = {
+  contents: [
+    { role: "user", parts: [{ text: userQuery }] }
+  ],
+  systemInstruction: {
+    role: "system",
+    parts: [{ text: systemPrompt }]
+  }
+};
   try {
-    const response = await fetch('/api/advice', { // 💡 Corrected line: Call your local API route
+    const response = await fetch(
+      "https://y-i0czxrsqe-rohitkashiwale2001-1212s-projects.vercel.app/api/advice",
+      { // 💡 Corrected line: Call your local API route
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
